@@ -14,18 +14,16 @@ async function fetchJSONData() {
 
 let sched_data =[]; //schedule from json
 let hebrew_lang = true;
+let curr_class;
 
-function dataFetched(data) {
-    console.log("test1");
-    sched_data = data;
-    document.getElementById("title").innerHTML = sched_data[0].id;
+function fillScheduleTable() {
     const table = document.getElementById("sched_table");
-    console.log("test2");
-    const days_count = sched_data[0].schedule.length;
+    table.innerHTML = "";
+    const days_count = sched_data[curr_class].schedule.length;
     console.log(days_count);
     let lessons_count = 0;
     for (let i = 0; i < days_count; i++) {
-        lessons_count = Math.max(lessons_count, sched_data[0].schedule[i].length);
+        lessons_count = Math.max(lessons_count, sched_data[curr_class].schedule[i].length);
     }
     for (let row = 0; row < lessons_count; row++) {
         let new_row = table.insertRow(-1);
@@ -35,11 +33,26 @@ function dataFetched(data) {
                 new_cell = new_row.insertCell(0);
             else
                 new_cell = new_row.insertCell(-1);
-            new_cell.innerHTML = sched_data[0].schedule[column][row];
+            new_cell.innerHTML = sched_data[curr_class].schedule[column][row];
         }
     }
+}
 
+function dataFetched(data) {
+    sched_data = data;
 
+    let sel_class = document.getElementById("child_class");
+    for (let i = 0; i < sched_data.length; i++) {
+        const el = document.createElement("option");
+        el.value = i;
+        el.textContent = sched_data[i].child_class;
+        sel_class.appendChild(el);
+    }
+    curr_class = 0;
+    sel_class.value = curr_class;
+    sel_class.addEventListener("change", fillScheduleTable);
+    
+    fillScheduleTable();
 }
 
 fetchJSONData().then(data => {

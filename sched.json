@@ -2,6 +2,7 @@
     {
         "child" : "Sasha",
         "id"    : "sasha",
+        "child_class": "ד1",
         "schedule" : [
             [
                 "שפה1",
@@ -32,6 +33,7 @@
     {
         "child" : "Nastya",
         "id"    : "nastya",
+        "child_class": "ב3",
         "schedule" : [
             [
                 "שפה1",
